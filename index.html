@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muniza Naqvi — ML Engineer & Data Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0a0a0f; --bg2: #111118; --bg3: #18181f; --card: #1a1a24;
+      --border: rgba(255,255,255,0.09); --accent: #00e5c3; --accent2: #7a90a8;
+      --text: #c8cad4; --muted: #8a8fa8; --heading: #f0f1f5;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; overflow-x: hidden; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.4; }
+    .orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; opacity: 0.12; }
+    .orb-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -200px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--accent2); bottom: -150px; right: -150px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 48px; background: rgba(10,10,15,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--heading); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    nav ul { list-style: none; display: flex; gap: 36px; }
+    nav ul a { text-decoration: none; color: var(--muted); font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    nav ul a:hover { color: var(--accent); }
+    .nav-cta { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; background: var(--accent); color: #0a0a0f; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.2s; }
+    .nav-cta:hover { background: #00ffd8; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; padding: 120px 48px 80px; max-width: 1300px; margin: 0 auto; }
+    .hero-content { max-width: 760px; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,229,195,0.08); border: 1px solid rgba(0,229,195,0.2); color: var(--accent); font-size: 0.78rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; margin-bottom: 28px; animation: fadeUp 0.6s ease both; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+    h1 { font-family: 'Inter', sans-serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 900; line-height: 1.0; color: var(--heading); letter-spacing: -0.04em; margin-bottom: 24px; animation: fadeUp 0.6s 0.1s ease both; }
+    h1 .accent { color: var(--accent); }
+    h1 .block { display: block; }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); max-width: 580px; line-height: 1.8; margin-bottom: 40px; animation: fadeUp 0.6s 0.2s ease both; }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeUp 0.6s 0.3s ease both; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; }
+    .btn-primary { background: var(--accent); color: #0a0a0f; }
+    .btn-primary:hover { background: #00ffd8; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,229,195,0.3); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .hero-stats { display: flex; gap: 48px; margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); animation: fadeUp 0.6s 0.4s ease both; flex-wrap: wrap; }
+    .stat-num { font-family: 'Inter', sans-serif; font-size: 2rem; font-weight: 800; color: var(--heading); line-height: 1; }
+    .stat-num span { color: var(--accent); font-size: 1.2rem; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    /* LAYOUT */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1300px; margin: 0 auto; padding: 0 48px; }
+    .section-pad { padding: 100px 0; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .section-title { font-family: 'Inter', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; color: var(--heading); letter-spacing: -0.03em; margin-bottom: 48px; }
+    .section-title span { color: var(--accent); }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; font-size: 0.97rem; line-height: 1.85; }
+
+    /* SKILLS */
+    .skill-group { margin-bottom: 32px; }
+    .skill-group-title { font-size: 0.75rem; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-size: 0.78rem; font-weight: 500; padding: 5px 12px; border-radius: 6px; background: var(--card); border: 1px solid var(--border); color: var(--text); transition: all 0.2s; }
+    .chip:hover { border-color: rgba(0,229,195,0.35); color: var(--accent); transform: translateY(-1px); }
+    .chip.hi, .chip.med { background: var(--card); border-color: var(--border); color: var(--text); }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { display: grid; grid-template-columns: 200px 1fr; gap: 32px; padding: 40px 0; border-bottom: 1px solid var(--border); position: relative; }
+    .timeline-item:last-child { border-bottom: none; }
+    .tl-date { font-size: 0.8rem; color: var(--muted); padding-top: 4px; line-height: 1.6; }
+    .tl-dot { position: absolute; left: 200px; top: 46px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); transform: translateX(-5px); box-shadow: 0 0 14px rgba(0,229,195,0.5); }
+    .tl-content { padding-left: 28px; border-left: 1px solid var(--border); }
+    .tl-role { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--heading); margin-bottom: 4px; }
+    .tl-org { color: var(--accent); font-size: 0.85rem; margin-bottom: 14px; font-weight: 500; }
+    .tl-current { display: inline-block; background: rgba(0,229,195,0.1); border: 1px solid rgba(0,229,195,0.25); color: var(--accent); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 100px; margin-left: 8px; vertical-align: middle; }
+    .tl-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.75; margin-bottom: 14px; }
+    .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .tl-bullets li { color: var(--muted); font-size: 0.85rem; line-height: 1.7; padding-left: 18px; position: relative; }
+    .tl-bullets li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+    .tl-bullets li strong { color: var(--text); font-weight: 600; }
+
+    /* EDU */
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .edu-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; transition: border-color 0.2s; }
+    .edu-card:hover { border-color: rgba(122,144,168,0.4); }
+    .edu-degree { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--heading); margin-bottom: 6px; }
+    .edu-school { color: var(--accent2); font-size: 0.82rem; margin-bottom: 6px; font-weight: 500; }
+    .edu-year { color: var(--muted); font-size: 0.78rem; }
+
+    /* CERT */
+    .cert-row { display: flex; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 48px; }
+    .cert-icon { color: var(--accent); font-size: 1.2rem; flex-shrink: 0; }
+    .cert-name { font-weight: 600; font-size: 0.88rem; color: var(--heading); }
+    .cert-body { font-size: 0.8rem; color: var(--muted); }
+
+    /* PUBLICATIONS */
+    .pub-list { display: flex; flex-direction: column; gap: 14px; }
+    .pub-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 26px; display: flex; gap: 16px; align-items: flex-start; transition: border-color 0.2s; }
+    .pub-item:hover { border-color: rgba(0,229,195,0.25); }
+    .pub-icon { color: var(--accent); font-size: 0.95rem; margin-top: 2px; flex-shrink: 0; }
+    .pub-title { font-weight: 600; font-size: 0.88rem; color: var(--heading); margin-bottom: 4px; }
+    .pub-desc { color: var(--muted); font-size: 0.81rem; line-height: 1.65; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
+    .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s; display: flex; flex-direction: column; }
+    .project-card:hover { transform: translateY(-6px); border-color: rgba(0,229,195,0.25); box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,229,195,0.1); }
+    .project-img-wrap { overflow: hidden; }
+    .project-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s; background: var(--bg3); }
+    .project-card:hover .project-img { transform: scale(1.04); }
+    .project-body { padding: 28px 28px 24px; flex: 1; display: flex; flex-direction: column; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; background: rgba(122,144,168,0.1); color: var(--accent2); border: 1px solid rgba(122,144,168,0.25); }
+    .tag.teal { background: rgba(0,229,195,0.08); color: var(--accent); border-color: rgba(0,229,195,0.2); }
+    .project-title { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--heading); margin-bottom: 12px; line-height: 1.25; letter-spacing: -0.025em; }
+    .project-desc { color: var(--muted); font-size: 0.875rem; line-height: 1.8; flex: 1; margin-bottom: 22px; }
+    .project-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 0.82rem; font-weight: 500; text-decoration: none; transition: gap 0.2s; }
+    .project-link:hover { gap: 10px; }
+    .project-link.disabled { opacity: 0.35; pointer-events: none; }
+
+    /* CONTACT */
+    .contact-wrap { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+    .contact-info p { color: var(--muted); margin-bottom: 32px; line-height: 1.8; }
+    .contact-links { display: flex; flex-direction: column; gap: 16px; }
+    .contact-link { display: flex; align-items: center; gap: 14px; color: var(--text); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link i { color: var(--accent); width: 20px; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 0.78rem; color: var(--muted); font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+    .form-group input, .form-group textarea { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; color: var(--text); font-family: 'Inter', sans-serif; font-size: 0.9rem; transition: border-color 0.2s; resize: vertical; }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+    .form-group textarea { min-height: 110px; }
+
+    /* FOOTER */
+    .footer-wrap { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 32px 48px; display: flex; align-items: center; justify-content: space-between; max-width: 1300px; margin: 0 auto; }
+    .footer-copy { color: var(--muted); font-size: 0.82rem; }
+    .footer-socials { display: flex; gap: 20px; }
+    .footer-socials a { color: var(--muted); font-size: 1rem; transition: color 0.2s; }
+    .footer-socials a:hover { color: var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; } nav ul { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .container { padding: 0 24px; }
+      .about-grid, .contact-wrap { grid-template-columns: 1fr; gap: 40px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 8px; }
+      .tl-dot, .tl-date { display: none; }
+      .tl-content { padding-left: 0; border-left: none; }
+      .footer-wrap { flex-direction: column; gap: 16px; text-align: center; padding: 24px; }
+      .contact-wrap { padding: 32px 24px; }
+      .hero-stats { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Muniza<span>.</span>Naqvi</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:munizanaqvi88@gmail.com" class="nav-cta"><i class="fa fa-envelope"></i> Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Open to new opportunities</div>
+    <h1>
+      <span class="block">ML Engineer</span>
+      <span class="block accent">& Data Scientist</span>
+    </h1>
+    <p class="hero-sub">
+      I build scalable AI systems — multimodal computer vision, LLM-powered automation, and data pipelines that move the needle.
+      10+ years turning high-dimensional data into measurable business impact. MS Applied Statistics · Suwanee, GA.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary"><i class="fa fa-folder-open"></i> View Projects</a>
+      <a href="#contact" class="btn btn-ghost"><i class="fa fa-envelope"></i> Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">10<span>+</span></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num"><span style="font-size:1rem;color:var(--muted)">25→</span>85<span>%</span></div>
+        <div class="stat-label">Automation Scaled</div>
+      </div>
+      <div>
+        <div class="stat-num">&lt;5<span>%</span></div>
+        <div class="stat-label">Forecast Error</div>
+      </div>
+      <div>
+        <div class="stat-num">97<span>%</span></div>
+        <div class="stat-label">Best Model Accuracy</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT + SKILLS -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2 class="section-title" style="margin-bottom:24px;">Where AI research<br>meets <span>real-world scale</span></h2>
+        <p>I'm an ML Engineer with deep expertise in computer vision, NLP, and multimodal AI. At CreativeX, I build systems that analyze millions of Fortune 500 ad assets across every major social platform — scaling automation coverage from 25% to 85%.</p>
+        <p>Before that, at Murrelektronik, I led the entire data strategy: from replacing manual pricing processes across millions of SKUs to building sales forecasting models that held under 5% error through COVID-era volatility.</p>
+        <p>I hold an MS in Applied Statistics from Kennesaw State University and a SAS Certification in Statistical Business Analysis. I've presented at SAS Global Forum and contributed to published industry research at CreativeX/WARC.</p>
+        <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
+          <a href="mailto:munizanaqvi88@gmail.com" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;"><i class="fa fa-envelope"></i> Email Me</a>
+          <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label" style="margin-bottom:24px;">Technical Skills</div>
+        <div class="skill-group">
+          <div class="skill-group-title">Machine Learning & AI</div>
+          <div class="skill-chips">
+            <span class="chip hi">Computer Vision</span><span class="chip hi">NLP</span><span class="chip hi">LLMs & VLMs</span>
+            <span class="chip hi">CNNs</span><span class="chip">Object Detection (YOLO)</span><span class="chip">OCR</span>
+            <span class="chip">Fine-Tuning</span><span class="chip">Forensic AI Detection</span>
+            <span class="chip">Supervised Learning</span><span class="chip">Unsupervised Learning</span>
+            <span class="chip">Time Series</span><span class="chip">A/B Testing</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Frameworks & Libraries</div>
+          <div class="skill-chips">
+            <span class="chip hi">Python</span><span class="chip hi">TensorFlow 2</span><span class="chip hi">PyTorch</span>
+            <span class="chip hi">scikit-learn</span><span class="chip">OpenCV</span><span class="chip">PySpark</span>
+            <span class="chip">YAMNet</span><span class="chip">EfficientNet</span><span class="chip med">R (ggplot2, caret, shiny)</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Cloud & Infrastructure</div>
+          <div class="skill-chips">
+            <span class="chip hi">AWS (S3, EC2, SageMaker, Rekognition)</span>
+            <span class="chip hi">Google Cloud (Vertex AI, GCS)</span>
+            <span class="chip">Docker</span><span class="chip">CI/CD</span><span class="chip">GPU Workloads</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Data, Agentic AI & Other</div>
+          <div class="skill-chips">
+            <span class="chip hi">SQL (MySQL, PostgreSQL)</span><span class="chip">RAG Pipelines</span>
+            <span class="chip">MCP</span><span class="chip">OpenAI Agents SDK</span>
+            <span class="chip">Looker</span><span class="chip">Tableau</span>
+            <span class="chip med">SAS</span><span class="chip">Hadoop</span><span class="chip">Neo4j</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container section-pad">
+    <div class="section-label">Career</div>
+    <h2 class="section-title">Work <span>Experience</span></h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="tl-date">Jul 2023 —<br>Present</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">ML Engineer (AI Research) <span class="tl-current">Current</span></div>
+          <div class="tl-org">CreativeX</div>
+          <p class="tl-desc">Research-focused ML engineering role in ad tech, building scalable AI systems to analyze Fortune 500 clients' creative assets (images, videos, audio) across all major social platforms.</p>
+          <ul class="tl-bullets">
+            <li><strong>Automation & Multimodal AI:</strong> Scaled ad guideline automation from 25% to 85% by designing multimodal vision ML systems detecting logos, faces, superimposed text, music, brand elements, AI-generated content, and other compliance guidelines.</li>
+            <li><strong>Model Selection & Cost Optimization:</strong> Led benchmarking across OCR engines, object detection models, and LLM/VLM prompt templates; replaced paid AWS/Google products with open-source alternatives, reducing cloud costs.</li>
+            <li><strong>Image/Video Matching:</strong> Contributed to fuzzy and exact matching systems from conception to production; developed forensic AI-generated content detection using noise pattern analysis.</li>
+            <li><strong>Creative Intelligence:</strong> Built unsupervised K-means + TF-IDF pipelines for theme discovery across thousands of creative assets, linking patterns to ad performance metrics and industry benchmarks.</li>
+            <li><strong>AI Enablement:</strong> Led company-wide agentic AI initiative (10x scale goal) deploying RAG + Gemini/Claude workflows to automate internal data access, analysis, and slide deck creation.</li>
+            <li><strong>Team Building:</strong> Established team best practices, Notion docs, onboarding, and code standards for a newly formed research team; mentored incoming ML engineers.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-date">Mar 2022 —<br>May 2024</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">Data Scientist</div>
+          <div class="tl-org">CreativeX <span style="color:var(--muted);font-size:0.8rem;">(concurrent with ML Eng role)</span></div>
+          <p class="tl-desc">Analyzed ad campaign data for Fortune 500 clients to surface actionable marketing insights across Meta, YouTube, and other social platforms.</p>
+          <ul class="tl-bullets">
+            <li><strong>Ad Performance Modeling:</strong> Modeled CTR, VTR, and brand lift using regression and classification models; ad content and best-practice compliance as features.</li>
+            <li><strong>Topic Modeling:</strong> Built pipelines identifying recurring creative themes per brand; quantified theme performance against ad metrics.</li>
+            <li><strong>Industry Research:</strong> Data analysis contributor for the <em>Gender in Advertising 2023 Report</em> (CreativeX/WARC) — examined demographic representation across global ad creative.</li>
+            <li><strong>Strategic Analysis:</strong> Developed revised internal pricing model and led churn analysis to support strategic planning.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-date">Jun 2017 —<br>Feb 2022</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">Project Manager – Data Analysis</div>
+          <div class="tl-org">Murrelektronik</div>
+          <p class="tl-desc">Led data strategy and project delivery for an industrial automation components company serving automotive, food & beverage, and manufacturing industries.</p>
+          <ul class="tl-bullets">
+            <li><strong>Pricing Automation:</strong> Replaced fully manual pricing across millions of SKUs with linear regression models automating price-setting from base cost + feature adders — eliminating error-prone manual update cycles.</li>
+            <li><strong>Inventory Optimization:</strong> Designed a safety stock model ingesting historical sales data across millions of parts; per-SKU recommendations directly improved fill rates and reduced stockouts.</li>
+            <li><strong>Sales Forecasting:</strong> Built and deployed a forecasting model achieving &lt;5% error, including through COVID-era market volatility; developed Sales & Customer Service KPIs.</li>
+            <li><strong>Manufacturing Optimization:</strong> Ran a Blocked Design Experiment resulting in a 30% increase in production efficiency.</li>
+            <li><strong>Automated Reporting:</strong> Built automated POS reporting with ETL pipelines to MySQL and R Shiny dashboards; automated distributor rebate calculation.</li>
+            <li><strong>Customer Segmentation:</strong> Cluster analysis to segment clients into actionable categories; competitor pricing research via web scraping.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-date">Jun 2013 —<br>May 2016</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">Product & Pricing Analyst</div>
+          <div class="tl-org">Murrelektronik</div>
+          <ul class="tl-bullets">
+            <li>Managed product pricing models, special pricing for large bids, and monthly variance analysis for bookings.</li>
+            <li>Built and maintained sales dashboards, forecasts, and performance reports; managed the central parts and pricing database.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-date">Jan 2011 —<br>Dec 2012</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">Data Analyst</div>
+          <div class="tl-org">Campuscafe</div>
+          <ul class="tl-bullets">
+            <li>Conducted profit analysis and sales forecasting across locations; prepared P&L reports and sales statistics for the CEO.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="tl-date">Aug 2016 —<br>May 2017</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-role">NSF S-STEM Mentor</div>
+          <div class="tl-org">Kennesaw State University</div>
+          <ul class="tl-bullets">
+            <li>Provided academic and career advisement to undergraduate National Science Foundation S-STEM scholars.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EDUCATION -->
+    <div style="margin-top:72px;">
+      <div class="section-label" style="margin-bottom:24px;">Education</div>
+      <div class="edu-grid">
+        <div class="edu-card">
+          <div class="edu-degree">MS, Applied Statistics</div>
+          <div class="edu-school">Kennesaw State University</div>
+          <div class="edu-year">2016 – 2017</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">BS, Mathematics</div>
+          <div class="edu-school">Kennesaw State University · Minor: Applied Statistics</div>
+          <div class="edu-year">2012 – 2013</div>
+        </div>
+        <div class="edu-card">
+          <div class="edu-degree">AS, Engineering</div>
+          <div class="edu-school">Georgia Perimeter College</div>
+          <div class="edu-year">2008 – 2011</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERT -->
+    <div class="cert-row">
+      <i class="fa fa-certificate cert-icon"></i>
+      <div>
+        <div class="cert-name">SAS Certified Statistical Business Analyst Using SAS 9: Regression and Modeling</div>
+        <div class="cert-body">SAS Institute · 2013</div>
+      </div>
+    </div>
+
+    <!-- PUBLICATIONS -->
+    <div>
+      <div class="section-label" style="margin-bottom:24px;">Publications & Presentations</div>
+      <div class="pub-list">
+        <div class="pub-item">
+          <i class="fa fa-file-alt pub-icon"></i>
+          <div>
+            <div class="pub-title">
+              <a href="https://s3.amazonaws.com/media.mediapost.com/uploads/CREATIVEXGender_in_Advertising_2023.pdf" target="_blank" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(0,229,195,0.3);transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='rgba(0,229,195,0.3)'">Gender in Advertising 2023 Report <i class="fa fa-external-link-alt" style="font-size:0.7rem;margin-left:5px;color:var(--accent);"></i></a>
+            </div>
+            <div class="pub-desc">Data analysis contributor. Published via CreativeX/WARC — examined demographic representation (gender, skin color, age) across global ad creative at scale.</div>
+          </div>
+        </div>
+        <div class="pub-item">
+          <i class="fa fa-microphone pub-icon"></i>
+          <div>
+            <div class="pub-title">SAS Global Forum 2017 — Orlando</div>
+            <div class="pub-desc">Presented <em>Crime Prediction — Philadelphia</em>, a crime likelihood prediction model built with SAS Enterprise Miner, after being selected as one of the top 8 national teams from the SAS Student Symposium.</div>
+          </div>
+        </div>
+        <div class="pub-item">
+          <i class="fa fa-microphone pub-icon"></i>
+          <div>
+            <div class="pub-title">R Day Presentation</div>
+            <div class="pub-desc">Presented <em>Sentiment Analysis on Insurance Companies Using Twitter Data</em> — NLP analysis using TweetR to study brand sentiment across major insurance companies, with word clouds and polarity visualizations.</div>
+          </div>
+        </div>
+        <div class="pub-item">
+          <i class="fa fa-microphone pub-icon"></i>
+          <div>
+            <div class="pub-title">GA Power Market Target Study <span style="font-size:0.72rem;font-weight:500;color:var(--muted);background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:2px 8px;border-radius:100px;margin-left:8px;vertical-align:middle;">NDA</span></div>
+            <div class="pub-desc">Used SAS to identify the target audience for a new product and presented findings directly to the Georgia Power executive team. Details are confidential under NDA.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-pad">
+  <div class="container">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Selected <span>Projects</span></h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/ham.png" alt="Spam vs Ham"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">Python</span><span class="tag">PySpark</span><span class="tag">Databricks</span></div>
+          <div class="project-title">Spam vs Ham Classification</div>
+          <p class="project-desc">Explored multiple models in Databricks using PySpark. Final model: Naive Bayes achieving 97% accuracy and 93% recall on text classification.</p>
+          <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/338592927544956/863073770934826/400981181773358/latest.html" class="project-link" target="_blank">View Notebook <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/malaria.png" alt="Malaria CNN"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">CNN</span><span class="tag teal">TensorFlow</span><span class="tag">Image Classification</span></div>
+          <div class="project-title">CNN on Malaria Cell Images</div>
+          <p class="project-desc">Convolutional Neural Network classifying parasitized vs. uninfected blood cell microscopy images — deep learning applied to medical imaging.</p>
+          <a href="https://github.com/MnNqB/Malaria_CNN/blob/main/CNN%20on%20Malaria%20Cells.ipynb" class="project-link" target="_blank">View on GitHub <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/credit.png" alt="Credit Risk"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">Binary Classification</span><span class="tag teal">SAS</span><span class="tag">Risk Modeling</span></div>
+          <div class="project-title">Credit Risk Modeling</div>
+          <p class="project-desc">Binary classification on real CompuCredit data — 1.7M+ observations and 356 variables to predict default risk at scale.</p>
+          <a href="Projects/Credit Risk Modeling.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/insurance.png" alt="Sentiment Analysis"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">R</span><span class="tag">Twitter API</span></div>
+          <div class="project-title">Sentiment Analysis on Insurance Tweets</div>
+          <p class="project-desc">Used TweetR to collect and analyze sentiment around major insurance brands. Word clouds, polarity scores, and trend graphs. Presented at R Day.</p>
+          <a href="Projects/Sentiment Analysis.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/wheat.png" alt="Time Series"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">Time Series</span><span class="tag teal">R</span><span class="tag">ARIMA</span></div>
+          <div class="project-title">Time Series Analysis — Wheat Prices</div>
+          <p class="project-desc">ARIMA model investigating and forecasting wheat price trends across ~700 years of historical data. Evaluated stationarity, ACF/PACF, and forecast accuracy.</p>
+          <a href="Projects/TimeSeries.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/AB.png" alt="A/B Testing"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">Factorial Design</span><span class="tag teal">JMP</span><span class="tag">DoE</span></div>
+          <div class="project-title">A/B Testing with Factorial Design</div>
+          <p class="project-desc">Blocked Design Experiment to determine the most efficient cable cutting method — resulting in a 30% production efficiency gain at Murrelektronik.</p>
+          <a href="Projects/DoE cables.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/crime.png" alt="Crime Analysis"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">Decision Trees</span><span class="tag teal">SAS</span><span class="tag">Published</span></div>
+          <div class="project-title">Crime Prediction — Philadelphia</div>
+          <p class="project-desc">Explored relationships between socioeconomic data and crime rates. Selected as top 8 national team at SAS Student Symposium; presented at SAS Global Forum 2017, Orlando.</p>
+          <a href="https://support.sas.com/resources/papers/proceedings17/2022-2017.pdf" class="project-link" target="_blank">View Published Paper <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/fca.png" alt="Factor Analysis"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">PCA</span><span class="tag teal">SAS</span><span class="tag">Survey Analysis</span></div>
+          <div class="project-title">Factor Analysis on Likert Scale Data</div>
+          <p class="project-desc">Identified key health and well-being factors from the National Health & Aging Trends study targeting Medicare beneficiaries 65+. Applied PCA and exploratory factor analysis.</p>
+          <a href="Projects/FA PCA.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/titanic.png" alt="Deployed Model"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag teal">Python</span><span class="tag">API Deployment</span><span class="tag">Git</span></div>
+          <div class="project-title">Deployed ML Model</div>
+          <p class="project-desc">End-to-end deployed model — from training through API deployment and serving. Link coming soon.</p>
+          <a href="#" class="project-link disabled">Coming Soon <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/stroke.png" alt="Ensemble Classification"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag teal">Python</span><span class="tag">Ensemble</span><span class="tag">Imbalanced Data</span></div>
+          <div class="project-title">Ensemble Classification on Imbalanced Data</div>
+          <p class="project-desc">Classification pipeline with SMOTE, undersampling, and ensemble methods (Random Forest, XGBoost) handling severe class imbalance. Link coming soon.</p>
+          <a href="#" class="project-link disabled">Coming Soon <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--bg2);border-top:1px solid var(--border);">
+  <div class="container section-pad">
+    <div class="section-label">Let's Connect</div>
+    <h2 class="section-title">Get in <span>Touch</span></h2>
+    <div class="contact-wrap">
+      <div class="contact-info">
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.4rem;color:var(--heading);margin-bottom:16px;">Looking for an ML engineer who ships?</h3>
+        <p>Whether you have a role, a project, or just want to talk AI — my inbox is open. I'm currently open to full-time ML Engineering and Data Science opportunities.</p>
+        <div class="contact-links">
+          <a href="mailto:munizanaqvi88@gmail.com" class="contact-link"><i class="fa fa-envelope"></i> munizanaqvi88@gmail.com</a>
+          <a href="tel:4046717525" class="contact-link"><i class="fa fa-phone"></i> (404) 671-7525</a>
+          <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" class="contact-link" target="_blank"><i class="fab fa-linkedin"></i> linkedin.com/in/statisticianmunizanaqvi</a>
+          <span class="contact-link"><i class="fa fa-map-marker-alt"></i> Suwanee, GA</span>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="Jane Smith"></div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="jane@company.com"></div>
+        <div class="form-group"><label>Message</label><textarea placeholder="Tell me about the opportunity..."></textarea></div>
+        <a href="mailto:munizanaqvi88@gmail.com" class="btn btn-primary" style="align-self:flex-start"><i class="fa fa-paper-plane"></i> Send Message</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-copy">© 2025 Muniza Naqvi · ML Engineer & Data Scientist</div>
+    <div class="footer-socials">
+      <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/MnNqB" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="mailto:munizanaqvi88@gmail.com"><i class="fa fa-envelope"></i></a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
