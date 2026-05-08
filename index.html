@@ -592,5 +592,339 @@
   </div>
 </footer>
 
+<!-- ── CHAT WIDGET ──────────────────────────────────────────────────────── -->
+<style>
+  /* Bubble button */
+  #chat-bubble {
+    position: fixed; bottom: 32px; right: 32px; z-index: 1000;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--accent); border: none; cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0,229,195,0.4);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  #chat-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 32px rgba(0,229,195,0.55); }
+
+  /* Avatar SVG inside bubble */
+  #chat-bubble svg { width: 32px; height: 32px; }
+
+  /* Unread dot */
+  #chat-unread {
+    position: absolute; top: 2px; right: 2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #ff4f4f; border: 2px solid var(--bg);
+    display: none;
+  }
+
+  /* Chat window */
+  #chat-window {
+    position: fixed; bottom: 104px; right: 32px; z-index: 1000;
+    width: 360px; height: 520px;
+    background: #13131a; border: 1px solid rgba(0,229,195,0.2);
+    border-radius: 20px; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+    display: none; flex-direction: column; overflow: hidden;
+    font-family: 'Inter', sans-serif;
+  }
+  #chat-window.open { display: flex; animation: popUp 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes popUp { from{opacity:0;transform:scale(0.85) translateY(16px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+  /* Header */
+  #chat-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 18px; background: #0e0e15;
+    border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
+  }
+  #chat-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, #00e5c3 0%, #7a90a8 100%);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  #chat-avatar svg { width: 22px; height: 22px; }
+  .chat-header-text { flex: 1; }
+  .chat-header-name { font-size: 0.9rem; font-weight: 700; color: #f0f1f5; }
+  .chat-header-status { font-size: 0.72rem; color: #00e5c3; display: flex; align-items: center; gap: 5px; margin-top: 1px; }
+  .chat-header-status::before { content:''; width:6px; height:6px; border-radius:50%; background:#00e5c3; animation: pulse 2s infinite; }
+  #chat-close { background: none; border: none; color: #7a7a9a; cursor: pointer; font-size: 1.1rem; padding: 4px; transition: color 0.2s; }
+  #chat-close:hover { color: #f0f1f5; }
+
+  /* Messages */
+  #chat-messages {
+    flex: 1; overflow-y: auto; padding: 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent;
+  }
+  .msg { max-width: 82%; padding: 10px 14px; border-radius: 14px; font-size: 0.85rem; line-height: 1.55; animation: msgIn 0.2s ease; }
+  @keyframes msgIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+  .msg.bot { background: #1e1e2a; color: #c8cad4; border-bottom-left-radius: 4px; align-self: flex-start; }
+  .msg.user { background: var(--accent); color: #0a0a0f; border-bottom-right-radius: 4px; align-self: flex-end; font-weight: 500; }
+  .msg.typing { background: #1e1e2a; color: #7a7a9a; align-self: flex-start; font-style: italic; }
+
+  /* Input bar */
+  #chat-input-wrap {
+    display: flex; gap: 8px; padding: 12px 14px;
+    border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; background: #0e0e15;
+  }
+  #chat-input {
+    flex: 1; background: #1e1e2a; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px; padding: 10px 14px; color: #e8e8f0;
+    font-family: 'Inter', sans-serif; font-size: 0.85rem;
+    outline: none; resize: none; max-height: 80px; transition: border-color 0.2s;
+  }
+  #chat-input:focus { border-color: rgba(0,229,195,0.4); }
+  #chat-input::placeholder { color: #555570; }
+  #chat-send {
+    background: var(--accent); border: none; border-radius: 10px;
+    width: 38px; flex-shrink: 0; cursor: pointer; color: #0a0a0f;
+    font-size: 0.9rem; transition: background 0.2s, transform 0.15s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #chat-send:hover { background: #00ffd8; transform: scale(1.05); }
+  #chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ── Callout tooltip ── */
+  #chat-callout {
+    position: fixed; bottom: 104px; right: 100px; z-index: 999;
+    background: #13131a; border: 1px solid rgba(0,229,195,0.3);
+    border-radius: 16px; padding: 14px 16px 14px 14px;
+    width: 220px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    display: none; flex-direction: column; gap: 6px;
+    animation: calloutIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+    cursor: pointer;
+  }
+  #chat-callout.visible { display: flex; }
+  #chat-callout.hiding { animation: calloutOut 0.25s ease forwards; }
+  @keyframes calloutIn {
+    from { opacity: 0; transform: translateX(16px) scale(0.92); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+  @keyframes calloutOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to   { opacity: 0; transform: translateX(16px) scale(0.92); }
+  }
+  /* little arrow pointing right toward bubble */
+  #chat-callout::after {
+    content: '';
+    position: absolute; right: -8px; bottom: 28px;
+    border-left: 8px solid rgba(0,229,195,0.3);
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+  }
+  #chat-callout::before {
+    content: '';
+    position: absolute; right: -6px; bottom: 29px;
+    border-left: 7px solid #13131a;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    z-index: 1;
+  }
+  .callout-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .callout-new {
+    font-size: 0.62rem; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #0a0a0f;
+    background: var(--accent); padding: 2px 7px; border-radius: 100px;
+    flex-shrink: 0;
+  }
+  .callout-title { font-size: 0.82rem; font-weight: 700; color: #f0f1f5; flex: 1; }
+  .callout-dismiss {
+    background: none; border: none; color: #555570; cursor: pointer;
+    font-size: 0.75rem; padding: 2px; line-height: 1; flex-shrink: 0;
+    transition: color 0.2s;
+  }
+  .callout-dismiss:hover { color: #f0f1f5; }
+  .callout-body { font-size: 0.78rem; color: #8a8fa8; line-height: 1.5; }
+  .callout-cta {
+    font-size: 0.75rem; font-weight: 600; color: var(--accent);
+    display: flex; align-items: center; gap: 5px; margin-top: 2px;
+  }
+
+  /* pulse ring around bubble when callout is showing */
+  #chat-bubble.announcing::before {
+    content: '';
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 2px solid rgba(0,229,195,0.4);
+    animation: ringPulse 1.8s ease-out infinite;
+  }
+  @keyframes ringPulse {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+</style>
+
+<!-- Callout tooltip -->
+<div id="chat-callout" onclick="openFromCallout()">
+  <div class="callout-top">
+    <span class="callout-new">✨ New</span>
+    <span class="callout-title">AI Assistant</span>
+    <button class="callout-dismiss" onclick="dismissCallout(event)"><i class="fa fa-times"></i></button>
+  </div>
+  <div class="callout-body">Chat with an AI trained on my background — ask about my experience, projects, or skills.</div>
+  <div class="callout-cta">Try it <i class="fa fa-arrow-right fa-xs"></i></div>
+</div>
+
+<!-- Floating bubble -->
+<button id="chat-bubble" onclick="toggleChat()" title="Chat with Muniza's AI">
+  <div id="chat-unread"></div>
+  <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Simple friendly robot face -->
+    <circle cx="16" cy="16" r="14" fill="#0a0a0f"/>
+    <rect x="8" y="10" width="16" height="12" rx="4" fill="#1a1a24" stroke="#00e5c3" stroke-width="1.5"/>
+    <circle cx="12" cy="15" r="2" fill="#00e5c3"/>
+    <circle cx="20" cy="15" r="2" fill="#00e5c3"/>
+    <path d="M12 19.5 Q16 22 20 19.5" stroke="#00e5c3" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+    <rect x="14.5" y="6" width="3" height="4" rx="1.5" fill="#00e5c3"/>
+    <circle cx="16" cy="6" r="1.5" fill="#00e5c3"/>
+  </svg>
+</button>
+
+<!-- Chat window -->
+<div id="chat-window">
+  <div id="chat-header">
+    <div id="chat-avatar">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="8" width="24" height="16" rx="5" fill="#0a0a0f" stroke="white" stroke-width="1.2"/>
+        <circle cx="11" cy="15" r="2.5" fill="white"/>
+        <circle cx="21" cy="15" r="2.5" fill="white"/>
+        <path d="M11 20 Q16 23 21 20" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <rect x="14" y="4" width="4" height="4" rx="2" fill="white"/>
+      </svg>
+    </div>
+    <div class="chat-header-text">
+      <div class="chat-header-name">Muniza's AI Assistant</div>
+      <div class="chat-header-status">Online · Ask me anything</div>
+    </div>
+    <button id="chat-close" onclick="toggleChat()"><i class="fa fa-times"></i></button>
+  </div>
+
+  <div id="chat-messages"></div>
+
+  <div id="chat-input-wrap">
+    <textarea id="chat-input" placeholder="Ask about my experience, projects..." rows="1"
+      onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    <button id="chat-send" onclick="sendMessage()"><i class="fa fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<script>
+  // ── Config — replace with your HuggingFace Space URL once deployed ──────────
+  const AGENT_URL = "https://mnnqb-portfolio-agent.hf.space/chat";
+  // Example: "https://mnnqb-portfolio-agent.hf.space/chat"
+
+  let chatHistory = [];
+  let isOpen = false;
+  let hasGreeted = false;
+
+  function toggleChat() {
+    isOpen = !isOpen;
+    const win = document.getElementById("chat-window");
+    const unread = document.getElementById("chat-unread");
+    win.classList.toggle("open", isOpen);
+    unread.style.display = "none";
+    if (isOpen && !hasGreeted) {
+      hasGreeted = true;
+      setTimeout(() => addMessage("bot",
+        "Hi! 👋 I'm Muniza's AI assistant. I can answer questions about her background, skills, projects, or experience. What would you like to know?"), 300);
+    }
+    if (isOpen) setTimeout(() => document.getElementById("chat-input").focus(), 350);
+  }
+
+  function addMessage(role, text) {
+    const el = document.createElement("div");
+    el.className = `msg ${role}`;
+    el.textContent = text;
+    const container = document.getElementById("chat-messages");
+    container.appendChild(el);
+    container.scrollTop = container.scrollHeight;
+    return el;
+  }
+
+  function showTyping() {
+    return addMessage("typing", "Thinking…");
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const sendBtn = document.getElementById("chat-send");
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = "";
+    autoResize(input);
+    addMessage("user", text);
+    sendBtn.disabled = true;
+
+    const typingEl = showTyping();
+
+    try {
+      const res = await fetch(AGENT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, history: chatHistory }),
+      });
+
+      const data = await res.json();
+      typingEl.remove();
+
+      const reply = data.reply || "Sorry, something went wrong.";
+      addMessage("bot", reply);
+
+      // Update history
+      chatHistory.push({ role: "user", content: text });
+      chatHistory.push({ role: "assistant", content: reply });
+
+    } catch (err) {
+      typingEl.remove();
+      addMessage("bot", "Hmm, I couldn't connect right now. Try emailing Muniza directly at munizanaqvi88@gmail.com!");
+    }
+
+    sendBtn.disabled = false;
+    document.getElementById("chat-messages").scrollTop = 99999;
+  }
+
+  function handleKey(e) {
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function autoResize(el) {
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 80) + "px";
+  }
+
+  // ── Callout logic ──────────────────────────────────────────────────────────
+  const callout = document.getElementById("chat-callout");
+  const bubble  = document.getElementById("chat-bubble");
+
+  function showCallout() {
+    if (isOpen) return;
+    callout.classList.add("visible");
+    bubble.classList.add("announcing");
+  }
+
+  function hideCallout() {
+    callout.classList.add("hiding");
+    bubble.classList.remove("announcing");
+    setTimeout(() => { callout.classList.remove("visible", "hiding"); }, 260);
+  }
+
+  function dismissCallout(e) {
+    e.stopPropagation();
+    hideCallout();
+  }
+
+  function openFromCallout() {
+    hideCallout();
+    if (!isOpen) toggleChat();
+  }
+
+  // Show callout after 4s, auto-hide after 12s
+  setTimeout(() => { showCallout(); }, 4000);
+  setTimeout(() => { if (callout.classList.contains("visible")) hideCallout(); }, 16000);
+
+  // Hide callout when user opens chat normally
+  const origToggle = toggleChat;
+  toggleChat = function() {
+    if (callout.classList.contains("visible")) hideCallout();
+    origToggle();
+  };
+</script>
 </body>
 </html>
