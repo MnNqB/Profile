@@ -115,9 +115,9 @@
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; }
     .project-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s; display: flex; flex-direction: column; }
     .project-card:hover { transform: translateY(-6px); border-color: rgba(0,229,195,0.25); box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,229,195,0.1); }
-    .project-img-wrap { overflow: hidden; }
-    .project-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform 0.4s; background: var(--bg3); }
-    .project-card:hover .project-img { transform: scale(1.04); }
+    .project-img-wrap { overflow: hidden; background: #0e0e15; border-bottom: 1px solid var(--border); }
+    .project-img { width: 100%; height: 200px; object-fit: contain; display: block; transition: transform 0.4s; background: #0e0e15; padding: 12px; }
+    .project-card:hover .project-img { transform: scale(1.03); }
     .project-body { padding: 28px 28px 24px; flex: 1; display: flex; flex-direction: column; }
     .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
     .tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; background: rgba(122,144,168,0.1); color: var(--accent2); border: 1px solid rgba(122,144,168,0.25); }
@@ -229,7 +229,7 @@
         <p>I hold an MS in Applied Statistics from Kennesaw State University and a SAS Certification in Statistical Business Analysis. I've presented at SAS Global Forum and contributed to published industry research at CreativeX/WARC.</p>
         <div style="margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;">
           <a href="mailto:munizanaqvi88@gmail.com" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;"><i class="fa fa-envelope"></i> Email Me</a>
-          <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <a href="https://www.linkedin.com/in/datascientistmunizanaqvi/" class="btn btn-ghost" style="padding:10px 18px;font-size:0.82rem;" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
         </div>
       </div>
 
@@ -451,26 +451,74 @@
     <h2 class="section-title">Selected <span>Projects</span></h2>
     <div class="projects-grid">
 
-      <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/ham.PNG" alt="Spam vs Ham"></div>
+      <!-- 1. CHATBOT -->
+      <div class="project-card" onclick="toggleChat()" style="cursor:pointer;" title="Click to chat!">
+        <div class="project-img-wrap" style="height:200px; background: linear-gradient(135deg, #0d0d15 0%, #1a1a2e 100%); display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+          <div style="position:absolute; inset:0; background: radial-gradient(ellipse at 30% 50%, rgba(0,229,195,0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(0,229,195,0.06) 0%, transparent 60%);"></div>
+          <div style="position:relative; z-index:1; text-align:center;">
+            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 16px rgba(0,229,195,0.4)); animation: botFloat 2.5s ease-in-out infinite;">
+              <circle cx="40" cy="40" r="38" fill="#1a1a24" stroke="#00e5c3" stroke-width="1.5"/>
+              <rect x="18" y="24" width="44" height="32" rx="10" fill="#0e0e15" stroke="#00e5c3" stroke-width="1.5"/>
+              <circle cx="30" cy="38" r="6" fill="#00e5c3" opacity="0.15"/>
+              <circle cx="30" cy="38" r="4" fill="#00e5c3"/>
+              <circle cx="50" cy="38" r="6" fill="#00e5c3" opacity="0.15"/>
+              <circle cx="50" cy="38" r="4" fill="#00e5c3"/>
+              <path d="M28 50 Q40 57 52 50" stroke="#00e5c3" stroke-width="2" stroke-linecap="round" fill="none"/>
+              <rect x="36" y="12" width="8" height="12" rx="4" fill="#00e5c3"/>
+              <circle cx="40" cy="12" r="4" fill="#00e5c3"/>
+            </svg>
+            <div style="font-size:0.7rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); font-family:'Inter',sans-serif; margin-top:12px;">Click to Chat</div>
+          </div>
+          <div style="position:absolute; top:14px; right:14px; background:var(--accent); color:#0a0a0f; font-size:0.62rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; padding:3px 9px; border-radius:100px;">✨ Live</div>
+        </div>
         <div class="project-body">
-          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">Python</span><span class="tag">PySpark</span><span class="tag">Databricks</span></div>
-          <div class="project-title">Spam vs Ham Classification</div>
-          <p class="project-desc">Explored multiple models in Databricks using PySpark. Final model: Naive Bayes achieving 97% accuracy and 93% recall on text classification.</p>
-          <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/338592927544956/863073770934826/400981181773358/latest.html" class="project-link" target="_blank">View Notebook <i class="fa fa-arrow-right fa-xs"></i></a>
+          <div class="project-tags"><span class="tag teal">Agentic AI</span><span class="tag">Claude Haiku</span><span class="tag">FastAPI</span><span class="tag">RAG</span></div>
+          <div class="project-title">AI Portfolio Assistant</div>
+          <p class="project-desc">A Claude-powered AI agent trained on my background, resume, and projects. Ask it anything about my experience — it'll answer as me, log unknown questions, and capture recruiter leads.</p>
+          <span class="project-link">Open Chat <i class="fa fa-arrow-right fa-xs"></i></span>
         </div>
       </div>
 
+      <!-- 2. AI VIDEO DETECTOR -->
       <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/malaria.PNG" alt="Malaria CNN"></div>
+        <div class="project-img-wrap"><img class="project-img" src="images/aifull.png" alt="AI Video Detector"></div>
         <div class="project-body">
-          <div class="project-tags"><span class="tag">CNN</span><span class="tag teal">TensorFlow</span><span class="tag">Image Classification</span></div>
-          <div class="project-title">CNN on Malaria Cell Images</div>
-          <p class="project-desc">Convolutional Neural Network classifying parasitized vs. uninfected blood cell microscopy images — deep learning applied to medical imaging.</p>
-          <a href="https://github.com/MnNqB/Malaria_CNN/blob/main/CNN%20on%20Malaria%20Cells.ipynb" class="project-link" target="_blank">View on GitHub <i class="fa fa-arrow-right fa-xs"></i></a>
+          <div class="project-tags"><span class="tag teal">Computer Vision</span><span class="tag">OpenCV</span><span class="tag">FastAPI</span><span class="tag">Diffusion Models</span><span class="tag">PoC</span></div>
+          <div class="project-title">AI Video Detector <span style="font-size:0.7rem;font-weight:600;color:var(--muted);background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:2px 8px;border-radius:100px;margin-left:6px;vertical-align:middle;">PoC</span></div>
+          <p class="project-desc">Detects whether a video is AI-generated using Laplacian high-pass filtering to extract noise signatures. Diffusion models leave characteristic residuals — Sora over-denoises (std &lt; 4.5), Veo retains high noise (std &gt; 6.5). Thresholds exploratory, being refined with more data.</p>
+          <a href="https://mnnqb-youtube-ai-gen.hf.space" class="project-link" target="_blank">Try the Tool <i class="fa fa-arrow-right fa-xs"></i></a>
         </div>
       </div>
 
+      <!-- 3. BANK FRAUD DETECTION -->
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/baf.png" alt="Bank Fraud Detection"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag teal">LightGBM</span><span class="tag">SHAP</span><span class="tag">Optuna</span><span class="tag">Feature Engineering</span></div>
+          <div class="project-title">Bank Account Fraud Detection</div>
+          <p class="project-desc">End-to-end fraud detection pipeline on 1M+ applications using the BAF dataset. Temporal train/test split, target encoding, Optuna hyperparameter tuning, and SHAP explainability. Engineered interaction features outperformed all 51 original features.</p>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <a href="https://mnnqb-fraud-risk-scorer.hf.space" class="project-link" target="_blank">Try the Demo <i class="fa fa-arrow-right fa-xs"></i></a>
+            <a href="https://colab.research.google.com/drive/1n015HEKGcif8u7ruaJt2-hv11fu_1dgO?usp=sharing" class="project-link" style="color:var(--muted);font-size:0.78rem;" target="_blank">View Notebook <i class="fa fa-arrow-right fa-xs"></i></a>
+          </div>
+        </div>
+      </div>
+	  
+		<!-- 4. MOVIE RECOMMENDER -->
+		<div class="project-card">
+		  <div class="project-img-wrap"><img class="project-img" src="images/movie.png" alt="Movie Recommender"></div>
+		  <div class="project-body">
+			<div class="project-tags"><span class="tag teal">Recommender Systems</span><span class="tag">TF-IDF</span><span class="tag">Collaborative Filtering</span><span class="tag">FastAPI</span></div>
+			<div class="project-title">Personalised Movie Recommender</div>
+			<p class="project-desc">Rate 5–10 movies and get personalised picks from two ML models: content-based filtering (TF-IDF + cosine similarity on genre, plot & cast) and item-based collaborative filtering (mean-centered user-movie matrix). Includes explainability — every recommendation shows which of your rated films drove it.</p>
+			<div style="display:flex; flex-direction:column; gap:8px;">
+			  <a href="https://mnnqb-movie-recommender.hf.space" class="project-link" target="_blank">Try the Demo <i class="fa fa-arrow-right fa-xs"></i></a>
+			  <a href="https://colab.research.google.com/drive/1a_EcUDZBDweZ1Gl1wOSC2bolhiRuSCIl?usp=sharing" class="project-link" style="color:var(--muted);font-size:0.78rem;" target="_blank">View Notebook <i class="fa fa-arrow-right fa-xs"></i></a>
+			</div>
+		  </div>
+		</div>
+
+      <!-- 5. CREDIT RISK -->
       <div class="project-card">
         <div class="project-img-wrap"><img class="project-img" src="images/credit.PNG" alt="Credit Risk"></div>
         <div class="project-body">
@@ -481,36 +529,29 @@
         </div>
       </div>
 
+      <!-- 6. CNN MALARIA -->
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/malaria.PNG" alt="Malaria CNN"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">CNN</span><span class="tag teal">TensorFlow</span><span class="tag">Image Classification</span></div>
+          <div class="project-title">CNN on Malaria Cell Images</div>
+          <p class="project-desc">Convolutional Neural Network classifying parasitized vs. uninfected blood cell microscopy images — 93.7% accuracy. Includes detailed model explanations and animated visualizations of the training process.</p>
+          <a href="https://github.com/MnNqB/Malaria_CNN/blob/main/CNN%20on%20Malaria%20Cells.ipynb" class="project-link" target="_blank">View on GitHub <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <!-- 7. SENTIMENT ANALYSIS -->
       <div class="project-card">
         <div class="project-img-wrap"><img class="project-img" src="images/insurance.PNG" alt="Sentiment Analysis"></div>
         <div class="project-body">
-          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">R</span><span class="tag">Twitter API</span></div>
+          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">R</span><span class="tag">Twitter API</span><span class="tag">Presented</span></div>
           <div class="project-title">Sentiment Analysis on Insurance Tweets</div>
           <p class="project-desc">Used TweetR to collect and analyze sentiment around major insurance brands. Word clouds, polarity scores, and trend graphs. Presented at R Day.</p>
           <a href="Projects/Sentiment Analysis.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/wheat.PNG" alt="Time Series"></div>
-        <div class="project-body">
-          <div class="project-tags"><span class="tag">Time Series</span><span class="tag teal">R</span><span class="tag">ARIMA</span></div>
-          <div class="project-title">Time Series Analysis — Wheat Prices</div>
-          <p class="project-desc">ARIMA model investigating and forecasting wheat price trends across ~700 years of historical data. Evaluated stationarity, ACF/PACF, and forecast accuracy.</p>
-          <a href="Projects/TimeSeries.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/AB.PNG" alt="A/B Testing"></div>
-        <div class="project-body">
-          <div class="project-tags"><span class="tag">Factorial Design</span><span class="tag teal">JMP</span><span class="tag">DoE</span></div>
-          <div class="project-title">A/B Testing with Factorial Design</div>
-          <p class="project-desc">Blocked Design Experiment to determine the most efficient cable cutting method — resulting in a 30% production efficiency gain at Murrelektronik.</p>
-          <a href="Projects/DoE cables.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
-        </div>
-      </div>
-
+      <!-- 8. CRIME PREDICTION -->
       <div class="project-card">
         <div class="project-img-wrap"><img class="project-img" src="images/crime.PNG" alt="Crime Analysis"></div>
         <div class="project-body">
@@ -521,6 +562,18 @@
         </div>
       </div>
 
+      <!-- 9. SPAM VS HAM -->
+      <div class="project-card">
+        <div class="project-img-wrap"><img class="project-img" src="images/ham.PNG" alt="Spam vs Ham"></div>
+        <div class="project-body">
+          <div class="project-tags"><span class="tag">NLP</span><span class="tag teal">Python</span><span class="tag">PySpark</span><span class="tag">Databricks</span></div>
+          <div class="project-title">Spam vs Ham Classification</div>
+          <p class="project-desc">Explored multiple models in Databricks using PySpark. Final model: Naive Bayes achieving 97% accuracy and 93% recall on text classification.</p>
+          <a href="https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/338592927544956/863073770934826/400981181773358/latest.html" class="project-link" target="_blank">View Notebook <i class="fa fa-arrow-right fa-xs"></i></a>
+        </div>
+      </div>
+
+      <!-- 10. FACTOR ANALYSIS -->
       <div class="project-card">
         <div class="project-img-wrap"><img class="project-img" src="images/fca.PNG" alt="Factor Analysis"></div>
         <div class="project-body">
@@ -531,23 +584,25 @@
         </div>
       </div>
 
+      <!-- 11. TIME SERIES -->
       <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/titanic.PNG" alt="Deployed Model"></div>
+        <div class="project-img-wrap"><img class="project-img" src="images/wheat.PNG" alt="Time Series"></div>
         <div class="project-body">
-          <div class="project-tags"><span class="tag teal">Python</span><span class="tag">API Deployment</span><span class="tag">Git</span></div>
-          <div class="project-title">Deployed ML Model</div>
-          <p class="project-desc">End-to-end deployed model — from training through API deployment and serving. Link coming soon.</p>
-          <a href="#" class="project-link disabled">Coming Soon <i class="fa fa-arrow-right fa-xs"></i></a>
+          <div class="project-tags"><span class="tag">Time Series</span><span class="tag teal">R</span><span class="tag">ARIMA</span></div>
+          <div class="project-title">Time Series Analysis — Wheat Prices</div>
+          <p class="project-desc">ARIMA model investigating and forecasting wheat price trends across ~700 years of historical data. Evaluated stationarity, ACF/PACF, and forecast accuracy.</p>
+          <a href="Projects/TimeSeries.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
         </div>
       </div>
 
+      <!-- 12. A/B TESTING -->
       <div class="project-card">
-        <div class="project-img-wrap"><img class="project-img" src="images/stroke.PNG" alt="Ensemble Classification"></div>
+        <div class="project-img-wrap"><img class="project-img" src="images/AB.PNG" alt="A/B Testing"></div>
         <div class="project-body">
-          <div class="project-tags"><span class="tag teal">Python</span><span class="tag">Ensemble</span><span class="tag">Imbalanced Data</span></div>
-          <div class="project-title">Ensemble Classification on Imbalanced Data</div>
-          <p class="project-desc">Classification pipeline with SMOTE, undersampling, and ensemble methods (Random Forest, XGBoost) handling severe class imbalance. Link coming soon.</p>
-          <a href="#" class="project-link disabled">Coming Soon <i class="fa fa-arrow-right fa-xs"></i></a>
+          <div class="project-tags"><span class="tag">Factorial Design</span><span class="tag teal">JMP</span><span class="tag">DoE</span></div>
+          <div class="project-title">A/B Testing with Factorial Design</div>
+          <p class="project-desc">Blocked Design Experiment to determine the most efficient cable cutting method — resulting in a 30% production efficiency gain at Murrelektronik.</p>
+          <a href="Projects/DoE cables.pdf" class="project-link">View PDF <i class="fa fa-arrow-right fa-xs"></i></a>
         </div>
       </div>
 
@@ -567,7 +622,7 @@
         <div class="contact-links">
           <a href="mailto:munizanaqvi88@gmail.com" class="contact-link"><i class="fa fa-envelope"></i> munizanaqvi88@gmail.com</a>
           <a href="tel:4046717525" class="contact-link"><i class="fa fa-phone"></i> (404) 671-7525</a>
-          <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" class="contact-link" target="_blank"><i class="fab fa-linkedin"></i> linkedin.com/in/statisticianmunizanaqvi</a>
+          <a href="https://www.linkedin.com/in/datascientistmunizanaqvi/" class="contact-link" target="_blank"><i class="fab fa-linkedin"></i> linkedin.com/in/datascientistmunizanaqvi</a>
           <span class="contact-link"><i class="fa fa-map-marker-alt"></i> Atlanta, GA</span>
         </div>
       </div>
@@ -585,7 +640,7 @@
   <div class="footer-wrap">
     <div class="footer-copy">© 2025 Muniza Naqvi · ML Engineer & Data Scientist</div>
     <div class="footer-socials">
-      <a href="https://www.linkedin.com/in/statisticianmunizanaqvi/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://www.linkedin.com/in/datascientistmunizanaqvi/" target="_blank"><i class="fab fa-linkedin"></i></a>
       <a href="https://github.com/MnNqB" target="_blank"><i class="fab fa-github"></i></a>
       <a href="mailto:munizanaqvi88@gmail.com"><i class="fa fa-envelope"></i></a>
     </div>
@@ -737,7 +792,10 @@
     display: flex; align-items: center; gap: 5px; margin-top: 2px;
   }
 
-  /* pulse ring around bubble when callout is showing */
+  @keyframes botFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
   #chat-bubble.announcing::before {
     content: '';
     position: absolute; inset: -6px; border-radius: 50%;
@@ -818,6 +876,19 @@
     const win = document.getElementById("chat-window");
     const unread = document.getElementById("chat-unread");
     win.classList.toggle("open", isOpen);
+
+    // Send chat summary when closing, if there's anything to summarise
+    if (!isOpen && chatHistory.length > 0) {
+      fetch(AGENT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: "",
+          history: chatHistory,
+          session_ending: true
+        })
+      }).catch(() => {}); // fire and forget — don't block the UI
+    }
     unread.style.display = "none";
     if (isOpen && !hasGreeted) {
       hasGreeted = true;
@@ -870,6 +941,13 @@
       // Update history
       chatHistory.push({ role: "user", content: text });
       chatHistory.push({ role: "assistant", content: reply });
+
+      // Disable input if turn limit reached
+      if (data.limit_reached) {
+        document.getElementById("chat-input").disabled = true;
+        document.getElementById("chat-send").disabled = true;
+        document.getElementById("chat-input").placeholder = "Chat ended — email munizanaqvi88@gmail.com";
+      }
 
     } catch (err) {
       typingEl.remove();
@@ -925,6 +1003,15 @@
     if (callout.classList.contains("visible")) hideCallout();
     origToggle();
   };
+
+  // Send summary if user navigates away mid-chat
+  window.addEventListener("beforeunload", () => {
+    if (chatHistory.length > 0) {
+      navigator.sendBeacon(AGENT_URL.replace("/chat", "/chat"),
+        JSON.stringify({ message: "", history: chatHistory, session_ending: true })
+      );
+    }
+  });
 </script>
 </body>
 </html>
