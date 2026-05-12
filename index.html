@@ -876,19 +876,6 @@
     const win = document.getElementById("chat-window");
     const unread = document.getElementById("chat-unread");
     win.classList.toggle("open", isOpen);
-
-    // Send chat summary when closing, if there's anything to summarise
-    if (!isOpen && chatHistory.length > 0) {
-      fetch(AGENT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: "",
-          history: chatHistory,
-          session_ending: true
-        })
-      }).catch(() => {}); // fire and forget — don't block the UI
-    }
     unread.style.display = "none";
     if (isOpen && !hasGreeted) {
       hasGreeted = true;
@@ -1003,15 +990,16 @@
     if (callout.classList.contains("visible")) hideCallout();
     origToggle();
   };
+</script>
 
-  // Send summary if user navigates away mid-chat
-  window.addEventListener("beforeunload", () => {
-    if (chatHistory.length > 0) {
-      navigator.sendBeacon(AGENT_URL.replace("/chat", "/chat"),
-        JSON.stringify({ message: "", history: chatHistory, session_ending: true })
-      );
-    }
-  });
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5T8EHSD8EX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5T8EHSD8EX');
 </script>
 </body>
 </html>
